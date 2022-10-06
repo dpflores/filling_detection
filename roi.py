@@ -1,3 +1,4 @@
+from textwrap import fill
 import numpy as np
 import cv2 as cv
 class ROI():
@@ -5,6 +6,8 @@ class ROI():
         self.start_point = start_point
         self.length = length
         self.width = width
+
+        self.roi_size = length*width
         
         self.vertices = np.array([start_point,[start_point[0]+length,start_point[1]],
                                 [start_point[0]+length,start_point[1]+width], [start_point[0],start_point[1]+width]])
@@ -15,6 +18,21 @@ class ROI():
         self.roi_h = hsv[:,:,0]
         self.roi_s = hsv[:,:,1]
         self.roi_v = hsv[:,:,2]
+
+    def set_image(self, img):
+        self.img = img
+        self.roi_img = img[self.start_point[1]:self.start_point[1]+self.width,
+                        self.start_point[0]:self.start_point[0]+self.length]
+
+        hsv = cv.cvtColor(self.roi_img, cv.COLOR_BGR2HSV)
+        self.roi_h = hsv[:,:,0]
+        self.roi_s = hsv[:,:,1]
+        self.roi_v = hsv[:,:,2]
+
+    def define_background(self):
+        self.background_size = cv.countNonZero(self.roi_h)
+        self.background_percentage = (self.background_size/self.roi_size)*100
+        self.cookie_size = self.roi_size - self.background_size
 
     def draw(self, alpha=0.6):
         overlay = self.img.copy()
@@ -59,3 +77,49 @@ class ROI():
             cv.circle(self.roi_h,(i[0],i[1]),i[2],(0,255,0),2)
             # draw the center of the circle
             cv.circle(self.roi_h,(i[0],i[1]),2,(0,0,255),3)
+
+    def detect_fillig(self):
+        
+        white_count = cv.countNonZero(self.roi_h)
+
+        white_percentage = white_count/self.roi_size
+
+        black_percentage = 100 - white_percentage
+
+        # Here we define a parameter
+        self.cookie = black_percentage > 3
+
+        if self.cookie:
+            filling_size = white_count - self.background_size
+            self.filling_percentage = (filling_size/self.cookie_size)*100
+        else:
+            self.filling_percentage = 0
+        
+        
+
+
+    def draw_text(self, img, text,
+            font=cv.FONT_HERSHEY_SIMPLEX,
+            pos=(0, 0),
+            font_scale=1,
+            font_thickness=2,
+            text_color=(0, 255, 0),
+            text_color_bg=(0, 0, 0)
+            ):
+
+        x, y = pos
+        text_size, _ = cv.getTextSize(text, font, font_scale, font_thickness)
+        text_w, text_h = text_size
+        cv.rectangle(img, pos, (x + text_w, y + text_h), text_color_bg, -1)
+        cv.putText(img, text, (x, y + text_h + font_scale - 1), font, font_scale, text_color, font_thickness)
+
+        return text_size
+
+    def show_results(self):
+        text = f'Cookie: {self.cookie} Percentage: {np.round(self.filling_percentage,2)}%'
+
+        self.draw_text(self.img, text, text_color=(0, 0, 255))    
+        
+
+
+
