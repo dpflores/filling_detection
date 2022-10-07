@@ -144,7 +144,8 @@ async def main():
     title = "O3R Port {}".format(str(args.pcic_port))
 
     if args.image == "xyz":
-        await display_3d(fg, getter, title)
+        # await display_3d(fg, getter, title)
+        pass
     else:
         await display_2d(fg, getter, title)
 

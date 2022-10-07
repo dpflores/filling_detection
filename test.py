@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 from roi import ROI
 
-def run_detection(img):
+def run_detection_percent(img):
     roi.set_image(img)
     # # Filtering ROI with gaussian
     # roi.filter(5)
@@ -73,7 +73,7 @@ img = cv.imread('images/rellena_partially_filled_close.png')
 
 
 
-analyzed, final_image =run_detection(img)
+analyzed, final_image =run_detection_percent(img)
 
 
 # print(hist)
