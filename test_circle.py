@@ -21,10 +21,12 @@ def run_detection_circle(img):
     # roi.dilate(op_close_window)
     # roi.erode(op_close_window)
 
-    roi.detect_fillig()
     roi.get_circles()
+    
 
-    roi.detect_fillig()
+    roi.detect_filling()
+
+    roi.draw_circles()
 
     roi.show_results()
 
@@ -34,15 +36,18 @@ def run_detection_circle(img):
     return analyzed,final_image
 
 
-
 if __name__=='__main__':
 
+    img = cv.imread('images/rellena.png')
 
-    img = cv.imread('images/rellena_partially_filled_close.png')
+    # print(img.shape)
+    # Init ROI
+    start = [480,200]
+    length = 400
+    width = 400
+    roi = RCircle(start, length, width)
 
-    # ROI
-    start = [550,200]
-    roi = RCircle(start, 340, 450, img)
+    roi.set_image(img)
 
     # analyzed, final_image =run_detection_percent(img)
     analyzed, final_image = run_detection_circle(img)
@@ -52,6 +57,7 @@ if __name__=='__main__':
     # plt.show()
 
     # print(hsv)
+    cv.imshow('result',roi.result)
     cv.imshow('ROI image',analyzed)
     cv.imshow('Test image',final_image)
     cv.waitKey(0)

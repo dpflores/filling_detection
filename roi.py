@@ -1,9 +1,7 @@
-from textwrap import fill
-from time import sleep
 import numpy as np
 import cv2 as cv
 class ROI():
-    def __init__(self,start_point, length, width, img):
+    def __init__(self,start_point, length, width):
         self.start_point = start_point
         self.length = length
         self.width = width
@@ -13,14 +11,6 @@ class ROI():
         self.vertices = np.array([start_point,[start_point[0]+length,start_point[1]],
                                 [start_point[0]+length,start_point[1]+width], [start_point[0],start_point[1]+width]])
         
-        self.img = img
-        self.roi_img = img[start_point[1]:start_point[1]+width,start_point[0]:start_point[0]+length]
-        hsv = cv.cvtColor(self.roi_img, cv.COLOR_BGR2HSV)
-        roi_h = hsv[:,:,0]
-        roi_s = hsv[:,:,1]
-        roi_v = hsv[:,:,2]
-
-        self.analyzed_layer = roi_s
 
     def set_image(self, img):
         self.img = img
@@ -73,22 +63,8 @@ class ROI():
         self.analyzed_layer = cv.dilate(self.analyzed_layer,np.ones((window_size,window_size)))
         return self.analyzed_layer
 
-    
-    # Shape detection
-    def get_circles(self):
-        self.circles = cv.HoughCircles(self.analyzed_layer,cv.HOUGH_GRADIENT,1.5,500,
-                            param1=50,param2=20,minRadius=0,maxRadius=0)
-        
-        print(self.circles)
-    def draw_circles(self):
-        self.circles = np.uint16(np.around(self.circles))
-        for i in self.circles[0,:]:
-            # draw the outer circle
-            cv.circle(self.analyzed_layer,(i[0],i[1]),i[2],(0,255,0),2)
-            # draw the center of the circle
-            cv.circle(self.analyzed_layer,(i[0],i[1]),2,(0,0,255),3)
 
-    def detect_fillig(self):
+    def detect_filling(self):
         
         white_count = cv.countNonZero(self.analyzed_layer)
 

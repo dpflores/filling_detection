@@ -19,7 +19,7 @@ def run_detection_percent(img):
     # roi.dilate(op_close_window)
     # roi.erode(op_close_window)
 
-    roi.detect_fillig()
+    roi.detect_filling()
 
     roi.show_results()
 
@@ -42,8 +42,9 @@ v = hsv[:,:,2]
 
 # ROI
 start = [550,200]
-roi = ROI(start, 340, 450, img)
+roi = ROI(start, 340, 450)
 
+roi.set_image(img)
 
 
 roi.filter_median(7)
