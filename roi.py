@@ -1,4 +1,5 @@
 from textwrap import fill
+from time import sleep
 import numpy as np
 import cv2 as cv
 class ROI():
@@ -15,9 +16,11 @@ class ROI():
         self.img = img
         self.roi_img = img[start_point[1]:start_point[1]+width,start_point[0]:start_point[0]+length]
         hsv = cv.cvtColor(self.roi_img, cv.COLOR_BGR2HSV)
-        self.roi_h = hsv[:,:,0]
-        self.roi_s = hsv[:,:,1]
-        self.roi_v = hsv[:,:,2]
+        roi_h = hsv[:,:,0]
+        roi_s = hsv[:,:,1]
+        roi_v = hsv[:,:,2]
+
+        self.analyzed_layer = roi_s
 
     def set_image(self, img):
         self.img = img
@@ -25,12 +28,14 @@ class ROI():
                         self.start_point[0]:self.start_point[0]+self.length]
 
         hsv = cv.cvtColor(self.roi_img, cv.COLOR_BGR2HSV)
-        self.roi_h = hsv[:,:,0]
-        self.roi_s = hsv[:,:,1]
-        self.roi_v = hsv[:,:,2]
+        roi_h = hsv[:,:,0]
+        roi_s = hsv[:,:,1]
+        roi_v = hsv[:,:,2]
+
+        self.analyzed_layer = roi_s
 
     def define_background(self):
-        self.background_size = cv.countNonZero(self.roi_h)
+        self.background_size = cv.countNonZero(self.analyzed_layer)
         self.background_percentage = (self.background_size/self.roi_size)*100
         self.cookie_size = self.roi_size - self.background_size
 
@@ -42,31 +47,36 @@ class ROI():
         return new_img
     
     def filter(self,window_size):
-        self.roi_h = cv.GaussianBlur(self.roi_h, (window_size, window_size), 0)
-        return self.roi_h
+        self.analyzed_layer = cv.GaussianBlur(self.analyzed_layer, (window_size, window_size), 0)
+        return self.analyzed_layer
 
-    def thresh(self, th=125):
-        ret, self.roi_h = cv.threshold(self.roi_h, th, 255, cv.THRESH_BINARY)
+    def filter_median(self, window_size):
+        self.analyzed_layer = cv.medianBlur(self.analyzed_layer, window_size)
+        return self.analyzed_layer
 
-        return self.roi_h
+    def thresh(self, th=125, invert=0):
+        ret, self.analyzed_layer = cv.threshold(self.analyzed_layer, th, 255, cv.THRESH_BINARY)
+        if invert:
+            self.analyzed_layer = 255-self.analyzed_layer
+        return self.analyzed_layer
 
     def get_histogram(self):
-        histogram = cv.calcHist([self.roi_h], [0], None, [256], [0, 256])
+        histogram = cv.calcHist([self.analyzed_layer], [0], None, [256], [0, 256])
         return histogram
 
     # Morphological Image processing
     def erode(self,window_size):
-        self.roi_h = cv.erode(self.roi_h,np.ones((window_size,window_size)))
-        return self.roi_h
+        self.analyzed_layer = cv.erode(self.analyzed_layer,np.ones((window_size,window_size)))
+        return self.analyzed_layer
     
     def dilate(self,window_size):
-        self.roi_h = cv.dilate(self.roi_h,np.ones((window_size,window_size)))
-        return self.roi_h
+        self.analyzed_layer = cv.dilate(self.analyzed_layer,np.ones((window_size,window_size)))
+        return self.analyzed_layer
 
     
     # Shape detection
     def get_circles(self):
-        self.circles = cv.HoughCircles(self.roi_h,cv.HOUGH_GRADIENT,1.5,500,
+        self.circles = cv.HoughCircles(self.analyzed_layer,cv.HOUGH_GRADIENT,1.5,500,
                             param1=50,param2=20,minRadius=0,maxRadius=0)
         
         print(self.circles)
@@ -74,20 +84,21 @@ class ROI():
         self.circles = np.uint16(np.around(self.circles))
         for i in self.circles[0,:]:
             # draw the outer circle
-            cv.circle(self.roi_h,(i[0],i[1]),i[2],(0,255,0),2)
+            cv.circle(self.analyzed_layer,(i[0],i[1]),i[2],(0,255,0),2)
             # draw the center of the circle
-            cv.circle(self.roi_h,(i[0],i[1]),2,(0,0,255),3)
+            cv.circle(self.analyzed_layer,(i[0],i[1]),2,(0,0,255),3)
 
     def detect_fillig(self):
         
-        white_count = cv.countNonZero(self.roi_h)
+        white_count = cv.countNonZero(self.analyzed_layer)
 
-        white_percentage = white_count/self.roi_size
+        white_percentage = (white_count/self.roi_size)*100
 
         black_percentage = 100 - white_percentage
-
+        # print(white_count, self.roi_size, black_percentage)
         # Here we define a parameter
-        self.cookie = black_percentage > 3
+        #           PARAMETER
+        self.cookie = black_percentage > 2.5
 
         if self.cookie:
             filling_size = white_count - self.background_size
