@@ -9,6 +9,9 @@ filling_detection
 
 - Correr el archivo `activate_cameras.py` en la carpeta filling detection para activar el uso de los puertos que se han conectado (modificar si es necesario).
 
+``` python3 activate_cameras.py```
+
+
 
 
 
