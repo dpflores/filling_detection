@@ -1,17 +1,66 @@
-
-from ifm3dpy import O3R, FrameGrabber, buffer_id
-import argparse
-import asyncio
-
-import cv2
+from typing import final
+import cv2 as cv
+import numpy as np
 
 from rcircle import RCircle
 
+# img = cv.imread('images/casino_menta_filled_close.png')
+img = cv.imread('images/rellena_not_filled_close.png')
+# img = cv.imread('images/rellena_not_filled_close.png')
+
+gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+h = hsv[:,:,0]
+s = hsv[:,:,1]
+v = hsv[:,:,2]
 
 # ROI
 start = [550,200]
 roi = RCircle(start, 340, 450)
 
+roi.set_image(img)
+
+# Filtering ROI with gaussian
+roi.filter(7)
+
+hist = roi.get_histogram()
+
+roi.thresh(50)
+
+# Opening and closing
+roi.dilate(7)
+roi.erode(7)
+
+# # Detecting circles
+# roi.get_circles()
+
+# roi.draw_circles()
+
+# define background
+
+roi.define_background()
+
+
+
+# # print(hist)
+# # plt.plot(hist)
+# # plt.show()
+
+# # print(hsv)
+# cv.imshow('ROI image',h)
+# cv.imshow('Test image',final_image)
+# cv.waitKey(0)
+# cv.destroyAllWindows()
+
+
+
+#!/usr/bin/env python3
+
+# # SPDX-License-Identifier: Apache-2.0
+# Copyright (C) 2020 ifm electronic gmbh
+#
+# THE PROGRAM IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND.
+#
 
 def run_detection_circle(img):
     roi.set_image(img)
@@ -43,6 +92,10 @@ def run_detection_circle(img):
     return analyzed,final_image
 
 
+from ifm3dpy import O3R, FrameGrabber, buffer_id
+import cv2
+import argparse
+import asyncio
 
 
 def get_jpeg(frame):
@@ -58,10 +111,10 @@ async def display_2d(fg, getter, title):
 
         img = getter(frame)
         # img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-        analyzed, img = run_detection_circle(img)
+        hue, img = run_detection_circle(img)
 
         cv2.imshow(title, img)
-        cv2.imshow('analyzed', analyzed)
+        cv2.imshow('hue', hue)
         cv2.waitKey(15)
 
 

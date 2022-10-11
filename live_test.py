@@ -16,9 +16,9 @@ v = hsv[:,:,2]
 
 # ROI
 start = [550,200]
-roi = ROI(start, 340, 450, img)
+roi = ROI(start, 340, 450)
 
-
+roi.set_image(img)
 
 # Filtering ROI with gaussian
 roi.filter(7)
@@ -77,7 +77,7 @@ def run_detection(img):
     # roi.dilate(op_close_window)
     # roi.erode(op_close_window)
 
-    roi.detect_fillig()
+    roi.detect_filling()
 
     roi.show_results()
 
