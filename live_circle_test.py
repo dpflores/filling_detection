@@ -1,7 +1,4 @@
-from typing import final
 import cv2 as cv
-import numpy as np
-
 from rcircle import RCircle
 
 # img = cv.imread('images/casino_menta_filled_close.png')

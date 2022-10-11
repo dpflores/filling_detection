@@ -1,7 +1,4 @@
 import cv2 as cv
-import numpy as np
-import matplotlib.pyplot as plt
-
 from roi import ROI
 
 def run_detection_percent(img):
