@@ -42,9 +42,21 @@ python3 live_circle_test.py --pcic-port 50010 --image jpeg
 
 Con ello, se podrá ver en video el funcionamiento y detección de galletas.
 
-A continuación se muestra un video de demostración del funcionamiento.
+A continuación se muestran unas fotos y un video de demostración del funcionamiento.
 
-<img src="figures/test.gif" alt="test" width="100%"/>
+<div class="row">
+  <div class="column">
+    <img src="figures/filled.png" alt="Cookie filled" style="width:50%">
+  </div>
+  <div class="column">
+    <img src="figures/partially_filled.png" alt="Cookie partially filled" style="width:50%">
+  </div>
+  <div class="column">
+    <img src="figures/no_filled.png" alt="Cookie no filled" style="width:50%">
+  </div>
+</div>
+
+<img src="figures/test.gif" alt="test video" width="50%"/>
 
 
 
