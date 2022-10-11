@@ -18,7 +18,7 @@ Para comprobar que se está recibiendo imagen del OVP, correr en la terminal la 
 ``` 
 python3 viewer.py --pcic-port 50010 --image jpeg
 ```
-> El pci-port va de 50010 (port0) a 50015 (port5), tener en cuenta que los puertos 2D son los puertos 0, 2 y 4, siendo el resto los puertos 3D.
+> El pci-port va de 50010 (port0) a 50015 (port5), tener en cuenta que los puertos 2D son los puertos 0 y 2, siendo el resto los puertos 3D.
 
 ## Pruebas con detección de círculos (rellenas)
 
