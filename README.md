@@ -44,35 +44,15 @@ Con ello, se podrá ver en video el funcionamiento y detección de galletas.
 
 A continuación mostramos algunos ejemplos obtenidos del live test
 
-<style>
-* {
-  box-sizing: border-box;
-}
-
-.column {
-  float: left;
-  width: 33.33%;
-  padding: 5px;
-}
-
-/* Clearfix (clear floats) */
-.row::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-</style>
-
-
 <div class="row">
   <div class="column">
-    <img src="figures/filled.png" alt="Cookie filled" style="width:100%">
+    <img src="figures/filled.png" alt="Cookie filled" style="width:50%">
   </div>
   <div class="column">
-    <img src="figures/partially_filled.png" alt="Cookie partially filled" style="width:100%">
+    <img src="figures/partially_filled.png" alt="Cookie partially filled" style="width:50%">
   </div>
   <div class="column">
-    <img src="figures/no_filled.png" alt="Cookie no filled" style="width:100%">
+    <img src="figures/no_filled.png" alt="Cookie no filled" style="width:50%">
   </div>
 </div>
 
