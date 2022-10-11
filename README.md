@@ -10,11 +10,17 @@ filling_detection
 - Correr el archivo `activate_cameras.py` en la carpeta filling detection para activar el uso de los puertos que se han conectado (modificar si es necesario).
 
 ``` 
-$ python3 activate_cameras.py
+python3 activate_cameras.py
 ```
 
-term
-: hOLASKD WDKWKDWKWK
+Para comprobar que se está recibiendo imagen del OVP, correr en la terminal
+
+``` 
+python3 viewer.py --pcic-port 50010 --image jpeg
+```
+> El pci-port va de 50010 (port0) a 50015 (port5)
+
+
 
 
 
