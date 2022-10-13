@@ -53,8 +53,13 @@ if __name__=='__main__':
     # plt.show()
 
     # print(hsv)
-    cv.imshow('result',roi.result)
-    cv.imshow('ROI image',analyzed)
-    cv.imshow('Test image',final_image)
-    cv.waitKey(0)
-    cv.destroyAllWindows()
+    
+    # FOR COMPUTER
+    # cv.imshow('result',roi.result)
+    # cv.imshow('ROI image',analyzed)
+    # cv.imshow('Test image',final_image)
+    # cv.waitKey(0)
+    # cv.destroyAllWindows()
+
+    # FOR TERMINAL 
+    print(roi.filling_percentage)
