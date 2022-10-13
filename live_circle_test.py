@@ -110,9 +110,13 @@ async def display_2d(fg, getter, title):
         # img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
         hue, img = run_detection_circle(img)
 
-        cv2.imshow(title, img)
-        cv2.imshow('hue', hue)
-        cv2.waitKey(15)
+        # FOR COMPUTER
+        # cv2.imshow(title, img)
+        # cv2.imshow('hue', hue)
+        # cv2.waitKey(15)
+
+        # FOR TERMINAL
+        print(roi.filling_percentage)
 
 
         if cv2.getWindowProperty(title, cv2.WND_PROP_VISIBLE) < 1:
