@@ -102,7 +102,7 @@ def get_jpeg(frame):
 async def display_2d(fg, getter, title):
     fg.start([buffer_id.NORM_AMPLITUDE_IMAGE,buffer_id.RADIAL_DISTANCE_IMAGE,buffer_id.XYZ,buffer_id.REFLECTIVITY,buffer_id.MONOCHROM_2D])
     cv2.startWindowThread()
-    cv2.namedWindow(title, cv2.WINDOW_NORMAL)
+    # cv2.namedWindow(title, cv2.WINDOW_NORMAL)
     while True:
         frame = await fg.wait_for_frame()
 
@@ -111,16 +111,16 @@ async def display_2d(fg, getter, title):
         hue, img = run_detection_circle(img)
 
         # FOR COMPUTER
-        cv2.imshow(title, img)
-        cv2.imshow('hue', hue)
-        cv2.waitKey(15)
+        # cv2.imshow(title, img)
+        # cv2.imshow('hue', hue)
+        # cv2.waitKey(15)
 
         # FOR TERMINAL
-        # print(roi.filling_percentage)
+        print(roi.filling_percentage)
 
 
-        if cv2.getWindowProperty(title, cv2.WND_PROP_VISIBLE) < 1:
-            break
+        # if cv2.getWindowProperty(title, cv2.WND_PROP_VISIBLE) < 1:
+        #     break
 
 
     cv2.destroyAllWindows()
