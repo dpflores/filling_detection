@@ -52,7 +52,10 @@ RUN sudo apt-get clean
 # Your normal pip installation, within the venv. We also update pip.
 COPY requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
-# RUN pip install -U pip && pip install numpy && p  ip install ifm3dpy==1.0.0
+
+# Add the repository to docker image
+COPY --chown=ifm:ifm . /home/ifm/filling_detection
+
 
 #For security reasons, using a "user" is recommended
 
