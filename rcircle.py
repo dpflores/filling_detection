@@ -7,7 +7,7 @@ class RCircle (ROI):
 
     def get_circles(self):
         self.circles = cv.HoughCircles(self.analyzed_layer,cv.HOUGH_GRADIENT,1.5,500,
-                            param1=50,param2=20,minRadius=32,maxRadius=50)
+                            param1=50,param2=20,minRadius=32)
         if self.circles is not None:
             self.circles = np.uint16(np.around(self.circles))
         return self.circles

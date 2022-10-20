@@ -49,12 +49,5 @@ if __name__=='__main__':
     analyzed, final_image = run_detection_circle(img)
 
 
-    # FOR COMPUTER
-    # cv.imshow('result',roi.result)
-    # cv.imshow('ROI image',analyzed)
-    cv.imshow('Test image',final_image)
-    cv.waitKey(0)
-    cv.destroyAllWindows()
-
     # FOR TERMINAL 
-    # print(roi.filling_percentage)
+    print(roi.filling_percentage)
