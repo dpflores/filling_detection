@@ -163,7 +163,7 @@ python3 activate_cameras.py
 Ahor podemos ejecutar la detección de galletas de forma contínua ejecutando.
 
 ``` 
-python3 live_circle_test.py --pcic-port 50010 --image jpeg
+python3 live_circle_test_terminal.py --pcic-port 50010 --image jpeg
 ```
 
 Con ello, podremos observar la detección de galletas y el porcentaje en la terminal.
