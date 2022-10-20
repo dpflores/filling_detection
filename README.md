@@ -168,6 +168,9 @@ python3 live_circle_test_terminal.py --pcic-port 50010 --image jpeg
 
 Con ello, podremos observar la detección de galletas y el porcentaje en la terminal.
 
+Por ejemplo, a continuación se muestra una comparación entre los resultados del proceso en la computadora, y los resultados en la OVP en la terminal, los cuales coinciden.
+
+<img src="figures/computer_ovp_compare.png" alt="Computer and ovp compare" style="width:80%">
 
 
 
