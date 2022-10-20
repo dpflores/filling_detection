@@ -120,7 +120,7 @@ Ahora, para cargar la imagen, ejecutamos la siguiente línea.
 docker load < fdi.tar
 ```
 
-Una vez haya cargado, revisamos si existe ejeutando 
+Una vez haya cargado, ejecutamos
 
 ```
 docker images
@@ -141,12 +141,12 @@ Lo cual cambiará a una nueva terminal, que en este caso viene a ser la terminal
 
 Ahora, al igual que en la computadora de escritorio, podremos correr los archivos con el inconveniente de que no tendremos visualización más que la terminal, por ello se han incluido scripts para el funcionamiento solo en la terminal del OVP y que nos permiten obtener la misma información.
 
-Como el repositorio `filling_detection` ya está incluido en el contendero, accedemos utilizando
+Como el repositorio `filling_detection` ya está incluido en el contenedor, accedemos utilizando
 
 ```
 cd filling_detection
 ```
-una vez acá, activamos las cámaras conectadas con
+una vez en la carpeta, activamos las cámaras conectadas con
 
 ``` 
 python3 activate_cameras.py
