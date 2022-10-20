@@ -114,6 +114,14 @@ Si nos pide contraseña, tipeamos `oem`. Una vez hecho esto estaremos en la term
 
 > Proceso en la terminal del OVP
 
+Antes de cargar la imagen en docker tenemos que asegurarnos que no hayan contenedores u otras imágenes que se han cargado anteriormente, por ello los eliminamos.
+
+```
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+docker rmi $(docker images -a -q)
+```
+
 Ahora, para cargar la imagen, ejecutamos la siguiente línea.
 
 ```
