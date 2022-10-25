@@ -1,6 +1,10 @@
 import cv2 as cv
 from rcircle import RCircle
 
+# For timing analysis
+import time 
+
+
 
 def run_detection_circle(img):
     roi.set_image(img)
@@ -34,6 +38,9 @@ def run_detection_circle(img):
 
 if __name__=='__main__':
 
+    # start time
+    st = time.time()
+
     img = cv.imread('images/rellena.png')
 
     # print(img.shape)
@@ -51,3 +58,10 @@ if __name__=='__main__':
 
     # FOR TERMINAL 
     print(roi.filling_percentage)
+
+    # end time
+    et = time.time()
+    # get the execution time
+    elapsed_time = et - st
+    print('Execution time:', elapsed_time, 'seconds')
+

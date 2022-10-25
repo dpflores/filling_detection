@@ -41,6 +41,11 @@ RUN sudo apt install -y libgl1-mesa-glx
 RUN sudo apt-get install -y libglib2.0-0
 
 
+# Adicional
+# Para ver el hardware del sistema
+RUN sudo apt-get install -y lshw
+
+
 
 RUN sudo apt-get clean
 
