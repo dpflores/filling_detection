@@ -18,6 +18,9 @@ except ModuleNotFoundError:
     OPEN3D_AVAILABLE = False
 
 
+img = cv2.imread('images/rellena_not_filled_close.png')
+
+
 def get_jpeg(frame):
     return cv2.imdecode(frame.get_buffer(buffer_id.JPEG_IMAGE), cv2.IMREAD_UNCHANGED)
 
@@ -30,15 +33,17 @@ def get_distance(frame):
 
 
 def get_amplitude(frame):
-    #print(frame.get_buffer(buffer_id.NORM_AMPLITUDE_IMAGE).shape)
+    # print(frame.get_buffer(buffer_id.NORM_AMPLITUDE_IMAGE).shape)
     return frame.get_buffer(buffer_id.NORM_AMPLITUDE_IMAGE)
 
+
 def get_reflectivity(frame):
-    #print(frame.get_buffer(buffer_id.NORM_AMPLITUDE_IMAGE).shape)
+    # print(frame.get_buffer(buffer_id.NORM_AMPLITUDE_IMAGE).shape)
     return frame.get_buffer(buffer_id.REFLECTIVITY)
 
+
 def get_mono(frame):
-    #print(frame.get_buffer(buffer_id.NORM_AMPLITUDE_IMAGE).shape)
+    # print(frame.get_buffer(buffer_id.NORM_AMPLITUDE_IMAGE).shape)
     return frame.get_buffer(buffer_id.MONOCHROM_2D)
 
 
@@ -47,7 +52,8 @@ def get_xyz(frame):
 
 
 async def display_2d(fg, getter, title):
-    fg.start([buffer_id.NORM_AMPLITUDE_IMAGE,buffer_id.RADIAL_DISTANCE_IMAGE,buffer_id.XYZ,buffer_id.REFLECTIVITY,buffer_id.MONOCHROM_2D])
+    fg.start([buffer_id.NORM_AMPLITUDE_IMAGE, buffer_id.RADIAL_DISTANCE_IMAGE,
+             buffer_id.XYZ, buffer_id.REFLECTIVITY, buffer_id.MONOCHROM_2D])
     cv2.startWindowThread()
     cv2.namedWindow(title, cv2.WINDOW_NORMAL)
     while True:
@@ -61,15 +67,15 @@ async def display_2d(fg, getter, title):
         if cv2.getWindowProperty(title, cv2.WND_PROP_VISIBLE) < 1:
             break
 
-
     cv2.destroyAllWindows()
 
 
 async def display_3d(fg, getter, title):
-    fg.start([buffer_id.NORM_AMPLITUDE_IMAGE,buffer_id.RADIAL_DISTANCE_IMAGE,buffer_id.XYZ])
+    fg.start([buffer_id.NORM_AMPLITUDE_IMAGE,
+             buffer_id.RADIAL_DISTANCE_IMAGE, buffer_id.XYZ])
     vis = o3d.visualization.Visualizer()
     vis.create_window(title)
-    
+
     first = True
     while True:
         frame = await fg.wait_for_frame()
@@ -122,5 +128,5 @@ async def main():
 
 
 if __name__ == "__main__":
-    
+
     asyncio.run(main())
