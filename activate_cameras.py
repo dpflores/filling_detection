@@ -1,18 +1,16 @@
+import json
 from ifm3dpy import O3R
 o3r = O3R()
-config = o3r.get() #get the configuration saved on the VPU
+config = o3r.get()  # get the configuration saved on the VPU
 
-#print(config)
-
-
+# print(config)
 
 
-config['ports']['port0']['state'] = "RUN" #Expecting a head on Port 0
+config['ports']['port0']['state'] = "RUN"  # Expecting a head on Port 0
 # config['ports']['port1']['state'] = "RUN" #Expecting a head on Port 0
-# config['ports']['port2']['state'] = "RUN" #Expecting a head on Port 0
+config['ports']['port2']['state'] = "RUN"  # Expecting a head on Port 0
 # config['ports']['port3']['state'] = "RUN" #Expecting a head on Port 0
 o3r.set(config)
-import json
 print(json.dumps(config, indent=4))
 # o3r.set(config)
 
