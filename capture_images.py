@@ -11,6 +11,8 @@ import cv2
 import argparse
 import asyncio
 
+import datetime
+
 try:
     import open3d as o3d
     OPEN3D_AVAILABLE = True
@@ -70,6 +72,31 @@ async def display_2d(fg, getter, title):
     cv2.destroyAllWindows()
 
 
+# funcion display_2d_2 para mostrar la imagen y cada vez que yo presione la tecla 's' se guarde la imagen en la carpeta captures
+# y con un nombre de la capture diferente cada vez que se guarda.
+async def display_2d_2(fg, getter, title):
+    fg.start([buffer_id.NORM_AMPLITUDE_IMAGE, buffer_id.RADIAL_DISTANCE_IMAGE,
+             buffer_id.XYZ, buffer_id.REFLECTIVITY, buffer_id.MONOCHROM_2D])
+    cv2.startWindowThread()
+    cv2.namedWindow(title, cv2.WINDOW_NORMAL)
+    while True:
+        frame = await fg.wait_for_frame()
+
+        img = getter(frame)
+
+        cv2.imshow(title, img)
+        # cv2.waitKey(15)
+
+        if cv2.getWindowProperty(title, cv2.WND_PROP_VISIBLE) < 1:
+            break
+
+        if cv2.waitKey(1) & 0xFF == ord('s'):
+            cv2.imwrite(
+                'captures/capture_{}.png'.format(str(datetime.datetime.now())), img)
+
+    cv2.destroyAllWindows()
+
+
 async def display_3d(fg, getter, title):
     fg.start([buffer_id.NORM_AMPLITUDE_IMAGE,
              buffer_id.RADIAL_DISTANCE_IMAGE, buffer_id.XYZ])
@@ -124,8 +151,8 @@ async def main():
     if args.image == "xyz":
         await display_3d(fg, getter, title)
     else:
-        await display_2d(fg, getter, title)
-
+        # await display_2d(fg, getter, title)
+        await display_2d_2(fg, getter, title)
 
 if __name__ == "__main__":
 
