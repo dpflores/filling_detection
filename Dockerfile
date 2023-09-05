@@ -45,6 +45,8 @@ RUN sudo apt-get install -y libglib2.0-0
 # Para ver el hardware del sistema
 RUN sudo apt-get install -y lshw
 
+# para el candump
+RUN sudo apt-get install can-utils
 
 
 RUN sudo apt-get clean
